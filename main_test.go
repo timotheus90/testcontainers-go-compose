@@ -6,21 +6,22 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	tc "github.com/testcontainers/testcontainers-go/modules/compose"
+
+	tccompose "github.com/testcontainers/testcontainers-go/modules/compose"
 )
 
 func TestCompose(t *testing.T) {
-	compose, err := tc.NewDockerCompose(filepath.Join("testdata", "docker-compose.yml"))
+	compose, err := tccompose.NewDockerCompose(filepath.Join("testdata", "docker-compose.yml"))
 	assert.NoError(t, err, "NewDockerCompose()")
 
 	t.Cleanup(func() {
-		assert.NoError(t, compose.Down(context.Background(), tc.RemoveOrphans(true), tc.RemoveImagesLocal), "compose.Down()")
+		assert.NoError(t, compose.Down(context.Background(), tccompose.RemoveOrphans(true), tccompose.RemoveImagesLocal), "compose.Down()")
 	})
 
 	ctx, cancel := context.WithCancel(context.Background())
 	t.Cleanup(cancel)
 
-	assert.NoError(t, compose.Up(ctx, tc.Wait(true)), "compose.Up()")
+	assert.NoError(t, compose.Up(ctx, tccompose.Wait(true)), "compose.Up()")
 
 	// do some testing here
 }
