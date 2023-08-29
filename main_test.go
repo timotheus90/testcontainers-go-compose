@@ -11,7 +11,7 @@ import (
 
 func TestCompose(t *testing.T) {
 	compose, err := tc.NewDockerCompose(filepath.Join("testdata", "docker-compose.yml"))
-	assert.NoError(t, err, "NewDockerComposeAPI()")
+	assert.NoError(t, err, "NewDockerCompose()")
 
 	t.Cleanup(func() {
 		assert.NoError(t, compose.Down(context.Background(), tc.RemoveOrphans(true), tc.RemoveImagesLocal), "compose.Down()")
